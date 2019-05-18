@@ -1,7 +1,7 @@
 import argparse
 from csv import reader
 import json
-from pprint import pprint
+#from pprint import pprint # useful for debugging
 import sys
 
 # Parse command line params
@@ -82,7 +82,6 @@ with open(adjacencyFileName, 'r', encoding="utf-8") as fh:
         else:
             print("Unknown room ID {} cannot be linked with {}".format(id2, id1))
 
-#pprint(data)
 if len(outputFileName) == 0:
     outputFileName = ".".join( (adjacencyFileName.split('.')[0], "json") )
 with open(outputFileName, 'w', encoding="utf-8") as out:

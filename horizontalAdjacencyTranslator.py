@@ -1,11 +1,11 @@
 import argparse
 from csv import reader
 import json
-from pprint import pprint
+#from pprint import pprint # useful when debugging
 import sys
 
 # Parse command line params
-# usage = """Usage: horizontalAdjacencyTranslator.py  -a "roomsAreas.csv"  [-m "mappings.txt"] -f "roomsAdjacency.txt" [-o "roomsAdjacency.json" [-r]]
+# usage = """Usage: horizontalAdjacencyTranslator.py  -p "roomsAreas.csv"  [-m "mappings.txt"] -f "roomsAdjacency.txt" [-o "roomsAdjacency.json" [-r]]
 # Options:
 #   -p  Name of the CSV file with properties about each room.
 #   -m  Name of the TXT file with mappings between IDs used in the adjacency file and th IDs which should be used in the output. If none is provided, IDs from the input file will be used.
@@ -33,7 +33,7 @@ def getRoomById(id):
             return room
     return None
 
-# NTIS-specific function to rename numerical IDs back to their normal string form
+# FAV-specific function to rename numerical IDs back to their normal string form
 def renameToAlfa(value):
     UX = value[0]
     val = None
@@ -61,10 +61,7 @@ with open(mappingFileName, "r", encoding="utf-8") as fh:
     csvReader = reader(fh, delimiter=";")
     next(csvReader) #skip heading
     for row in csvReader:
-        #print(row[1], renameToAlfa(row[1]))
         idTable[row[0]] = renameToAlfa(row[1])
-
-#pprint(idTable)
 
 # If there is already a file with adjacencies and the flag is not set to rewrite it, read it
 if len(outputFileName) > 0 and not rw:
@@ -132,7 +129,6 @@ with open(adjacencyFileName, 'r', encoding="utf-8") as fh:
         else:
             print("Unknown room ID {} cannot be linked with {}".format(id2, id1))
 
-#pprint(data)
 if len(outputFileName) == 0:
     outputFileName = ".".join( (adjacencyFileName.split('.')[0], "json") )
 with open(outputFileName, 'w', encoding="utf-8") as out:
